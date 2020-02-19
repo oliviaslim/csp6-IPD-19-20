@@ -1,15 +1,7 @@
-####
-# Each team's file must define four tokens:
-#     team_name: a string
-#     strategy_name: a string
-#     strategy_description: a string
-#     move: A function that returns 'c' or 'b'
-####
+team_name = 'Seniors'
+strategy_name = 'Sneak Attack'
+strategy_description = '''Betray all the turns up until the halfway point, after that collude'''
 
-team_name = 'E2'
-strategy_name = 'Alternate'
-strategy_description = 'Collude, then alternate.'
-    
 def move(my_history, their_history, my_score, their_score):
     '''Make my move based on the history with this player.
     
@@ -20,9 +12,9 @@ def move(my_history, their_history, my_score, their_score):
     
     Returns 'c' or 'b' for collude or betray.
     '''
-    # This player colludes on even numbered rounds (first round is round #0).
-    if len(my_history)%2 == 0:
-        return 'c'
+
+    if len(my_history)<150: 
+        return 'b'             
     else:
-        return 'b'
+        return 'c'         
     

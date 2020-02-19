@@ -1,0 +1,257 @@
+--------------------------------------------------------------------------------
+Section 0 - Line up
+--------------------------------------------------------------------------------
+Player 0 (P0): Seniors, Collude, Betray, Repeat
+        Collude first five turns, then betray the next five, repeat this pattern
+Player 1 (P1): Seniors, Collude once, Betray later
+        Collude very first turn, betray rest of the time.
+Player 2 (P2): Seniors, Sneak Attack
+        Collude all the turns up until the halfway point, after that betray
+Player 3 (P3): E3, Collude but retaliate
+        Collude first round. Collude, except in a round after getting 
+        a severe punishment.
+--------------------------------------------------------------------------------
+Section 1 - Player vs. Player
+--------------------------------------------------------------------------------
+Each column shows pts//round earned against each other player:
+             P0     P1     P2     P3
+vs. P0 :      0   -179   -180   -301
+vs. P1 :   -299      0   -301   -373
+vs. P2 :   -300   -178      0   -375
+vs. P3 :    -59    -75    -75      0
+TOTAL  :   -658   -432   -556  -1049
+--------------------------------------------------------------------------------
+Section 2 - Leaderboard
+--------------------------------------------------------------------------------
+Average points per round:
+Team name (P#):  Score      with strategy name
+Seniors   (P1):       -108 points with Collude once, Betray later              
+Seniors   (P2):       -139 points with Sneak Attack                            
+Seniors   (P0):       -165 points with Collude, Betray, Repeat                 
+E3        (P3):       -263 points with Collude but retaliate                   
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+example0--------------------------------------------------------------------------------
+team_name = 'Seniors'
+strategy_name = 'Collude, Betray, Repeat'
+strategy_description = '''Collude first five turns, then betray the next five, repeat this pattern'''
+
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+
+    if len(my_history)%5 == 0:
+        return 'c'
+    else:
+        return 'b'  --------------------------------------------------------------------------------
+example1--------------------------------------------------------------------------------
+team_name = 'Seniors'
+strategy_name = 'Collude once, Betray later'
+strategy_description = '''Collude very first turn, betray rest of the time.'''
+
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+
+    if len(my_history)==0: # It's the first round; collude.
+        return 'c'
+    else: 
+        return 'b'     
+           --------------------------------------------------------------------------------
+example2--------------------------------------------------------------------------------
+team_name = 'Seniors'
+strategy_name = 'Sneak Attack'
+strategy_description = '''Collude all the turns up until the halfway point, after that betray'''
+
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+
+    if len(my_history)<150: 
+        return 'b'             
+    else:
+        return 'c'         
+    --------------------------------------------------------------------------------
+example3--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'E3'
+strategy_name = 'Collude but retaliate'
+strategy_description = '''\
+Collude first round. Collude, except in a round after getting 
+a severe punishment.'''
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if len(my_history)==0: # It's the first round; collude.
+        return 'c'
+    elif my_history[-1]=='c' and their_history[-1]=='b':
+        return 'b' # Betray if they were severely punished last time,
+    else:
+        return 'c' # otherwise collude.--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Seniors
+--------------------------------------------------------------------------------
+-299 pt//round: Seniors(P0) "Collude, Betray, Repeat"
+-179 pt//ound: Seniors(P1) "Collude once, Betray later"
+Cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+CbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+
+cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+BbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+
+--------------------------------------------------------------------------------
+-300 pt//round: Seniors(P0) "Collude, Betray, Repeat"
+-180 pt//ound: Seniors(P2) "Sneak Attack"
+cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+BbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+
+cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+BbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+
+--------------------------------------------------------------------------------
+-59 pt//round: Seniors(P0) "Collude, Betray, Repeat"
+-301 pt//ound: E3(P3) "Collude but retaliate"
+CBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBb
+CcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcb
+
+CBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBb
+CcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcb
+
+CBbBbCBbB
+CcbcbCcbc
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Seniors
+--------------------------------------------------------------------------------
+-179 pt//round: Seniors(P1) "Collude once, Betray later"
+-299 pt//ound: Seniors(P0) "Collude, Betray, Repeat"
+CbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+Cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+
+BbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+
+--------------------------------------------------------------------------------
+-178 pt//round: Seniors(P1) "Collude once, Betray later"
+-301 pt//ound: Seniors(P2) "Sneak Attack"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbBBBBBBBBBB
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-75 pt//round: Seniors(P1) "Collude once, Betray later"
+-373 pt//ound: E3(P3) "Collude but retaliate"
+CBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+Ccbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+bBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Seniors
+--------------------------------------------------------------------------------
+-180 pt//round: Seniors(P2) "Sneak Attack"
+-300 pt//ound: Seniors(P0) "Collude, Betray, Repeat"
+BbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+
+BbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbbBbbbb
+cbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbbcbbbb
+
+--------------------------------------------------------------------------------
+-301 pt//round: Seniors(P2) "Sneak Attack"
+-178 pt//ound: Seniors(P1) "Collude once, Betray later"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccc
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbBBBBBBBBBB
+
+cccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-75 pt//round: Seniors(P2) "Sneak Attack"
+-375 pt//ound: E3(P3) "Collude but retaliate"
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team E3
+--------------------------------------------------------------------------------
+-301 pt//round: E3(P3) "Collude but retaliate"
+-59 pt//ound: Seniors(P0) "Collude, Betray, Repeat"
+CcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcb
+CBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBb
+
+CcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcbCcbcb
+CBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBbCBbBb
+
+CcbcbCcbc
+CBbBbCBbB
+
+--------------------------------------------------------------------------------
+-373 pt//round: E3(P3) "Collude but retaliate"
+-75 pt//ound: Seniors(P1) "Collude once, Betray later"
+Ccbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+CBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+
+bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+bBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+
+--------------------------------------------------------------------------------
+-375 pt//round: E3(P3) "Collude but retaliate"
+-75 pt//ound: Seniors(P2) "Sneak Attack"
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+
+cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+BbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+
+--------------------------------------------------------------------------------
